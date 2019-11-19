@@ -1,0 +1,40 @@
+<view wx:if="{{currentUser}}">
+    <view class="profile">
+        <image class="avatar" style="height:60px;width:60px" src="{{currentUser._attribute.photo}}" />
+
+      <form bindsubmit="bindEditProfile">
+          <input class="input" name="photo" value="{{currentUser.photo}}" placeholder="Add your photo url"></input>
+          <button class="btn" style="padding-left:10px;" form-type="submit">Change avatar</button>
+
+      </form>
+    </view>
+  
+  <text class="welcome">Welcome, {{ currentUser._username }}</text>
+  <view bindtap="onClick" class="btn" url="/pages/cart/cart" data-id="{{ currentUser.user_id }}">Go to My Orders</view>
+  <button bindtap="onLogout">Logout</button>
+</view>
+
+<view wx:else>
+  <view wx:if="{{ state == 'login' }}">
+    <form bindsubmit="onLogin">
+      <view>用户名</view>
+      <input name="username" placeholder="请输入用户名"></input>
+      <view>密码</view>
+      <input name="password" type="password"></input>
+      <button formType="submit">登陆</button>
+      <button bindtap="changeState">初次到来，注册</button>
+    </form>
+  </view>
+
+<!-- 下面还没写完，要写登陆的东西去Login -->
+  <view wx:if="{{ state == 'register' }}">
+    <form bindsubmit="onRegister">
+      <view>用户名</view>
+      <input name="username" placeholder="请输入用户名"></input>
+      <view>密码</view>
+      <input name="password" type="password"></input>
+      <button formType="submit">注册</button>
+      <button bindtap="changeState">已注册，去登陆</button>
+    </form>
+  </view>
+</view>

@@ -1,0 +1,4 @@
+/* pages/meal/meal.wxss */
+.meal-img {
+  height: 200px;
+}

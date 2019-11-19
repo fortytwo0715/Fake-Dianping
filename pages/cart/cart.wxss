@@ -1,0 +1,10 @@
+/* pages/cart/cart.wxss */
+.meal-img {
+  height: 100px;
+  width: 160px;
+}
+
+.order {
+  box-shadow: 1px 1px 1px #eee;
+  padding: 20px;
+}

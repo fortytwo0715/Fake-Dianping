@@ -1,0 +1,10 @@
+<view>
+  <view>下面是菜</view>
+
+  <view class="meal" wx:for="{{ meals }}" wx:for-item="meal">
+  <view>{{ meal.name }}</view>
+  <image class="meal-img" src="{{ meal.photo }}"></image>
+  <view>{{ meal.price }} RMB</view>
+  
+  </view>
+</view>

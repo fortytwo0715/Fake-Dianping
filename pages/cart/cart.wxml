@@ -1,0 +1,17 @@
+<!--pages/cart/cart.wxml-->
+<view>
+  <view class="h3" style="padding:20px">My Orders</view>
+
+  <view class="order" wx:for="{{ meals }}" wx:for-item="meal">
+    <view style="display:flex;flex-direction:row;justify-content:space-between;align-items:center">
+          <image class="meal-img" src="{{ meal.meal_id.photo }}"></image>
+          <view>
+            <view class="h3">{{ meal.meal_id.name }}</view>
+            <view>{{ meal.meal_id.price }} RMB</view>
+          </view>
+          <view style="padding:5px" bindtap="deleteItem" data-id="{{ meal.id }}">❌</view>
+    </view>
+
+
+  </view>
+</view>

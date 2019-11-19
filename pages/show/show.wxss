@@ -1,0 +1,48 @@
+/* pages/show/show.wxss */
+.restaurant {
+  box-shadow: 1px 1px 1px #eee;
+  padding: 20px;
+}
+
+.reviews {
+  box-shadow: 1px 1px 1px #eee;
+  padding: 20px;
+}
+
+.res_name {
+  font-size: 24px;
+  font-weight: bold;
+  margin-top: 30px;
+}
+
+.res_desc {
+  font-size: 18px;
+}
+
+.subReview {
+  box-shadow: 1px 1px 1px #eee;
+  padding: 20px;
+}
+
+.meal {
+  display: flex;
+  justify-content: space-between;
+  padding: 20px;
+}
+
+.meal-img {
+  height: 100px;
+  width: 160px;
+}
+
+.small-btn {
+  display: flex;
+  align-items: center;
+  height: 9em;
+  width: 10vw;
+  padding: 5px;
+  background-color: burlywood;
+  color: white;
+  font-weight: bold;
+  border-radius: 3px;
+}

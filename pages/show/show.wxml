@@ -1,0 +1,43 @@
+<!--pages/show/show.wxml-->
+<view class="body">
+  <view class="restaurant">
+    <view class="res_name">{{ restaurant.name }}</view>
+    <view class="res_desc">{{ restaurant.description}}</view>
+  </view>
+
+  <button style="margin-top:20px" class="btn" bindtap="changeState" data-id="{{ restaurant.id }}"> {{ status }}</button>
+
+  <view wx:if="{{ state == 'order' }}">
+  <view class="restaurant">
+    <view style="display:flex;flex-direction:row;justify-content:space-between;align-items:center" wx:for="{{ meals }}" wx:for-item="meal" class="meal">
+      <view>
+        <image class="meal-img" src="{{ meal.photo }}"></image>
+        <view class="h3">{{ meal.name }}</view>
+        <view>{{ meal.price }} RMB</view>
+      </view>
+      <view class="small-btn" bindtap="onSubmitOrder" data-id="{{ meal.id }}"><text>下单</text></view>
+    </view>
+  </view>
+  </view>
+
+  <view class="reviews">
+    <view class="h3">餐厅评论：</view>
+    <view wx:for="{{ reviews }}" wx:for-item="review">
+      <text>{{ review.content }}</text>
+      <text> (打分：{{ review.rating }})</text>
+    </view>
+  </view>
+  
+  <view wx:if="{{ state == 'comment' }}">
+    <view class="subReview" style="background-color:white;">
+      <view class="h3">用餐体验怎么样？</view>
+      <form bindsubmit="onSubmitReview">
+        <input name="content" placeholder="Share your thoughts!" type="text" value="{{content}}"></input>
+        <view>评价： {{ rating }}</view>
+        <picker mode="selector" range="{{ ratingValues }}" bindchange="onChangeRating">点击修改评分</picker>
+        <button class="btn" form-type="submit">提交评论</button>
+      </form>
+    </view>
+  </view>
+
+</view>
