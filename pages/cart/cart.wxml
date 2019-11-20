@@ -1,17 +1,36 @@
 <!--pages/cart/cart.wxml-->
 <view>
-  <view class="h3" style="padding:20px">My Orders</view>
-
-  <view class="order" wx:for="{{ meals }}" wx:for-item="meal">
+  <view class="h3" style="padding:20px;text-align:center">My Orders</view>
+  <view class="h3" style="padding-left:20px">付款商品</view>
+  <view class="order" wx:for="{{ meals }}" wx:for-item="meal" wx:if="{{ meal.meal_id.price > 0 }}">
     <view style="display:flex;flex-direction:row;justify-content:space-between;align-items:center">
           <image class="meal-img" src="{{ meal.meal_id.photo }}"></image>
           <view>
             <view class="h3">{{ meal.meal_id.name }}</view>
             <view>{{ meal.meal_id.price }} RMB</view>
           </view>
-          <view style="padding:5px" bindtap="deleteItem" data-id="{{ meal.id }}">❌</view>
+          <view style="padding:5px" bindtap="deleteItem" data-id="{{ meal.id }}" data-points="{{ meal.meal_id.points }}">❌</view>
+          
     </view>
+    <view wx:if="{{currentUser._attribute.role == 'manager' && meal.state == 'opened'}}" data-id="{{meal.id}}" class="button" bindtap="readyOrder" style="color:blue;text-align:right">Ready</view>
+    <view wx:elif="{{currentUser._attribute.role == 'deliverer' && meal.state == 'ready'}}" data-id="{{meal.id}}" class="button" bindtap="deliverOrder" style="color:red;text-align:right">Deliver</view>
+    <view wx:else class="state" style="color:blue;text-align:right"> {{meal.state}} </view>
+    <view wx:if="{{meal.state == 'delivering'}}" style="color:red;text-align:right">快递员：{{meal.deliverer._username}}</view>
+  </view>
 
-
+  <view class="h3" style="padding-left:20px;padding-top:20px">积分兑换商品</view>
+  <view class="order" wx:for="{{ meals }}" wx:for-item="meal" wx:if="{{ meal.meal_id.points < 0 }}">
+    <view style="display:flex;flex-direction:row;justify-content:space-between;align-items:center">
+          <image class="meal-img" src="{{ meal.meal_id.photo }}"></image>
+          <view>
+            <view class="h3">{{ meal.meal_id.name }}</view>
+            <view>{{ meal.meal_id.points }} 积分</view>
+          </view>
+          <view style="padding:5px" bindtap="deleteItem" data-id="{{ meal.id }}" data-points="{{ meal.meal_id.points }}">❌</view>
+    </view>
+    <view wx:if="{{currentUser._attribute.role == 'manager' && meal.state == 'opened'}}" data-id="{{meal.id}}" class="button" bindtap="readyOrder" style="color:blue;text-align:right">Ready</view>
+    <view wx:elif="{{currentUser._attribute.role == 'deliverer' && meal.state == 'ready'}}" data-id="{{meal.id}}" class="button" bindtap="deliverOrder" style="color:red;text-align:right">Deliver</view>
+    <view wx:else class="state" style="color:blue;text-align:right"> {{meal.state}} </view>
+    <view wx:if="{{meal.state == 'delivering'}}" style="color:red;text-align:right">快递员：{{meal.deliverer._username}}</view>
   </view>
 </view>

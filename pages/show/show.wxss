@@ -2,6 +2,7 @@
 .restaurant {
   box-shadow: 1px 1px 1px #eee;
   padding: 20px;
+  margin: 5px;
 }
 
 .reviews {

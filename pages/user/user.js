@@ -3,7 +3,9 @@ Page({
   data: {
     state: 'register',
     currentUser: null,
-    photo: []
+    userID: [],
+    photo: [],
+    points: []
   },
   onClick: function (event) {
     let userID = event.currentTarget.dataset.id
@@ -27,29 +29,6 @@ Page({
     }).catch(err => {
       console.log('err', err)
     })
-      
-    
-    // user.set('avatar', photo).update().then(res => {
-    //   console.log('avatar', res)
-    //   page.setData({
-    //     photo: res
-    //   })
-      // user.save().then(function () {
-      //   wx.showModal({
-      //     title: '提交成功',
-      //     content: '确认',
-      //   })
-      // }).catch(function (err) {
-      //   wx.showModal({
-      //     title: '提交失败',
-      //     content: err.message,
-      //   })
-      // })
-    //   wx.reLaunch({
-    //     url: '/pages/user/user',
-    //   })
-    // })
-
   },
   changeState: function() {
     if (this.data.state == 'register') {
@@ -61,6 +40,22 @@ Page({
         state: 'register'
       })
     }
+  },
+
+  userInfoHandler: function(data) {
+    //data是加密过的微信账号的信息
+    let page = this
+    wx.BaaS.auth.loginWithWechat(data).then(function(res) {
+      console.log('user', res)
+      page.setData({
+        currentUser: res
+      })
+    }).catch(function(err) {
+      wx.showModal({
+        title: '登陆失败',
+        content: err.message,
+      })
+    })
   },
 
   onRegister: function(event) {
@@ -116,7 +111,8 @@ Page({
     wx.BaaS.auth.getCurrentUser().then(function(res) {
       //设置用户
       page.setData({
-        currentUser: res
+        currentUser: res,
+        userID: res.id
       })
       console.log(res)
     }).catch(function(err) {
@@ -125,6 +121,18 @@ Page({
         title: '您没有登陆',
         content: err.message,
       })
+    })
+  },
+
+  onShow: function(options) {
+    let page = this
+
+    wx.BaaS.auth.getCurrentUser().then(function (res) {
+      page.setData({
+        currentUser: res,
+        points: res.points
+      })
+      console.log('points', res)
     })
   }
 })

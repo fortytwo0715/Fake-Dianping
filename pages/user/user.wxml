@@ -1,6 +1,6 @@
 <view wx:if="{{currentUser}}">
     <view class="profile">
-        <image class="avatar" style="height:60px;width:60px" src="{{currentUser._attribute.photo}}" />
+        <image class="avatar" style="height:60px;width:60px" src="{{currentUser._attribute.photo || currentUser.avatar}}" />
 
       <form bindsubmit="bindEditProfile">
           <input class="input" name="photo" value="{{currentUser.photo}}" placeholder="Add your photo url"></input>
@@ -9,8 +9,12 @@
       </form>
     </view>
   
-  <text class="welcome">Welcome, {{ currentUser._username }}</text>
-  <view bindtap="onClick" class="btn" url="/pages/cart/cart" data-id="{{ currentUser.user_id }}">Go to My Orders</view>
+  <!-- <text class="welcome" wx:if="{{ currentUser.nickname }}">Welcome, {{ currentUser.nickname }}</text>
+  <text class="welcome" wx:else>Welcome, {{ currentUser._username }}</text> -->
+  <!-- 下面与上一条相同 -->
+  <text class="welcome">Welcome, {{ currentUser._username || currentUser.nickname }}</text>
+  <view style="text-align:center;">当前积分：{{ currentUser._attribute.points }}</view>
+  <view bindtap="onClick" class="btn" data-id="{{ currentUser.user_id }}">Go to My Orders</view>
   <button bindtap="onLogout">Logout</button>
 </view>
 
@@ -26,7 +30,7 @@
     </form>
   </view>
 
-<!-- 下面还没写完，要写登陆的东西去Login -->
+<!-- 登陆的东西去Login -->
   <view wx:if="{{ state == 'register' }}">
     <form bindsubmit="onRegister">
       <view>用户名</view>
@@ -37,4 +41,6 @@
       <button bindtap="changeState">已注册，去登陆</button>
     </form>
   </view>
+
+  <button class="btn" style="height:40px" open-type="getUserInfo" bindgetuserinfo="userInfoHandler">微信Login</button>
 </view>

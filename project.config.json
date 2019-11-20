@@ -57,6 +57,14 @@
 					"id": -1,
 					"name": "pages/meal",
 					"pathName": "pages/meal/meal",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": 2,
+					"name": "pages/show/show",
+					"pathName": "pages/show/show",
+					"query": "id=5dcd52ee3b355626ed750d7f",
 					"scene": null
 				}
 			]

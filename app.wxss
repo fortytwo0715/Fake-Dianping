@@ -13,18 +13,29 @@
   background-color:#fffbfc;
 }
 
+input {
+  border: 0.5px #eee solid;
+  padding: 5px;
+  font-size: 0.8em;
+  width: 100%;
+  min-height: 1rem !important;
+}
+
 .h3 {
   font-weight: bold
 }
 
 .btn {
-  /* display: inline; */
-  height: 25px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 35px;
   width: 80px;
   color: white;
   background-color: orangered;
   padding: 2px 8px;
   font-size: 15px;
   min-height: 25px !important;
+  margin: 10px auto;
 }
 

@@ -9,13 +9,15 @@ Page({
     rating: 3,
     meals: [],
     state: 'comment',
-    status: 'Click to Order'
+    status: 'Click to Order',
+    content: ''
   },
+
   changeState: function () {
     if (this.data.state == 'comment') {
       this.setData({
         state: 'order',
-        status: 'Click to Comment'
+        status: 'Go back to Comment'
       })
     } else {
       this.setData({
@@ -52,18 +54,6 @@ Page({
   },
   
   onShow: function(options) {
-    // let Meal = new wx.BaaS.TableObject('meals')
-    // let query = new wx.BaaS.Query()
-    // let page = this
-    // let restaurantID = this.data.restaurantId
-    // console.log('RES', restaurantID)
-    // query.compare('restaurant_id', '=', restaurantID)
-    // Meal.setQuery(query).find().then(function (res) {
-    //   page.setData({
-    //     meals: res.data.objects
-    //   })
-    //   console.log('meals', res)
-    // })
   },
 
   fetchReviews: function () {
@@ -95,27 +85,55 @@ Page({
   },
 
   onSubmitOrder: function(event) {
+    let currentUser = this.data.currentUser
     let mealId = event.currentTarget.dataset.id
+    let points = event.currentTarget.dataset.points
+    let currentPoints = currentUser.get('points')
+    let newPoints = currentPoints + points
     let Order = new wx.BaaS.TableObject('orders')
     let order = Order.create()
+    console.log('各种points', points, currentPoints, newPoints)
     order.set({
-      user_id: this.data.currentUser.id.toString(),
+      user_id: currentUser.id.toString(),
       meal_id: mealId,
       quantity: 1
     })
-    order.save().then(function() {
-      setTimeout(() => wx.switchTab({
-        url: '/pages/user/user'
-      }), 800)
+    if (points < 0 && newPoints < 0) {
       wx.showToast({
-        title: '成功，跳转个人中心',
+        title: '积分不足',
       })
-    }).catch(function(err) {
-      wx.showModal({
-        title: '订单创建失败',
-        content: err.message,
+      return;
+    }
+    else if (points > 0) {
+      order.save().then(function () {
+        currentUser.set('points', newPoints)
+        currentUser.update().then(function (res) {
+          wx.showToast({
+            title: '下单成功',
+          })
+        })
+      }).catch(function (err) {
+        wx.showModal({
+          title: '订单创建失败',
+          content: err.message,
+        })
       })
-    })
+    }
+    else {
+      order.save().then(function () {
+        currentUser.set('points', newPoints)
+        currentUser.update().then(function (res) {
+          wx.showToast({
+            title: '积分兑换成功',
+          })
+        })
+      }).catch(function (err) {
+        wx.showModal({
+          title: '订单创建失败',
+          content: err.message,
+        })
+      })
+    }
   },
 
   onChangeRating: function(event) {
@@ -147,7 +165,7 @@ Page({
     let page = this
     review.save().then(function(res) {
       page.fetchReviews()
-      page.submitSuccess
+      page.submitSuccess(res)
     })
   },
   submitSuccess(res) {
