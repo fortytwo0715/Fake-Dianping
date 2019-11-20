@@ -14,6 +14,8 @@
     </view>
     <view wx:if="{{currentUser._attribute.role == 'manager' && meal.state == 'opened'}}" data-id="{{meal.id}}" class="button" bindtap="readyOrder" style="color:blue;text-align:right">Ready</view>
     <view wx:elif="{{currentUser._attribute.role == 'deliverer' && meal.state == 'ready'}}" data-id="{{meal.id}}" class="button" bindtap="deliverOrder" style="color:red;text-align:right">Deliver</view>
+    <view wx:elif="{{currentUser._attribute.role != 'deliverer' && meal.state == 'delivering'}}" data-id="{{meal.id}}" class="button" bindtap="deliveredOrder" style="color:red;text-align:right">Delivered</view>
+
     <view wx:else class="state" style="color:blue;text-align:right"> {{meal.state}} </view>
     <view wx:if="{{meal.state == 'delivering'}}" style="color:red;text-align:right">快递员：{{meal.deliverer._username}}</view>
   </view>

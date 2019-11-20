@@ -20,6 +20,11 @@ Page({
     let points = event.currentTarget.dataset.points
     console.log('我是啥', event.currentTarget.dataset)
     console.log('orderID', event.currentTarget.dataset.id)
+    //下面是隐藏商品但仍保留数据的删除，按理应该让employee和user看到的订单页分开
+    // query.compare('hidden', '=', true)
+    // Order.setQuery(query).find().then(res => {
+    //   // Handle returned orders from filtered request
+    // })
     Order.delete(orderID).then(res => {
       this.fetchOrders()
       this.updatePoints(points)
@@ -139,6 +144,21 @@ Page({
     order.set("state", "delivering");
     order.set("deliverer", currentUser.id.toString());
     order.update().then(res => {
+      wx.reLaunch({
+        url: '/pages/cart/cart',
+      })
+    })
+  },
+  deliveredOrder(event) {
+    const page = this;
+    const data = event.currentTarget.dataset;
+    const id = data.id;
+
+    let tableName = 'orders'
+    let Order = new wx.BaaS.TableObject(tableName)
+    let order = Order.getWithoutData(id)
+
+    order.set("state", "delivered").update().then(res => {
       wx.reLaunch({
         url: '/pages/cart/cart',
       })
